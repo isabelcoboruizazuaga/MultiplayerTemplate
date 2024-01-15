@@ -1479,8 +1479,8 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+          m_BoolArgument: 0
+        m_CallState: 0
 --- !u!114 &549286726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4512,9 +4512,7 @@ GameObject:
   - component: {fileID: 1728478329}
   - component: {fileID: 1728478328}
   - component: {fileID: 1728478327}
-  - component: {fileID: 1728478326}
   - component: {fileID: 1728478331}
-  - component: {fileID: 1728478332}
   m_Layer: 5
   m_Name: MultiplayerMenu
   m_TagString: Untagged
@@ -4522,18 +4520,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1728478326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1728478325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff1835e62bf93144c9303fce2f058579, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1728478327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4643,24 +4629,6 @@ MonoBehaviour:
   newLobbyBtn: {fileID: 549286725}
   codeJoinBtn: {fileID: 865457630}
   newLobbyUI: {fileID: 2089946093}
---- !u!114 &1728478332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1728478325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d976a5d4dad3048a92464e644a56dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerNameInputField: {fileID: 0}
-  codeInputField: {fileID: 0}
-  quickJoinBtn: {fileID: 0}
-  newLobbyBtn: {fileID: 0}
-  codeJoinBtn: {fileID: 0}
-  newLobbyUI: {fileID: 0}
 --- !u!1 &1791073490
 GameObject:
   m_ObjectHideFlags: 0

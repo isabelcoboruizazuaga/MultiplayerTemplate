@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
 public class MultiplayerMenuUIController : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class MultiplayerMenuUIController : MonoBehaviour
     [SerializeField] private Button quickJoinBtn;
     [SerializeField] private Button newLobbyBtn;
     [SerializeField] private Button codeJoinBtn;
+    //[SerializeField] private Button newPrivateLobbyBtn;
 
     [SerializeField] private GameObject newLobbyUI;
 
@@ -30,6 +33,8 @@ public class MultiplayerMenuUIController : MonoBehaviour
         playerNameInputField.onValueChanged.AddListener(delegate
         {
             InputValueCheck();
+            Debug.Log(playerNameInputField.text);
+            Debug.Log(MultiplayerManager.Instance);
            // MultiplayerManager.Instance.SetPlayerName(playerNameInputField.text);
         });
 
@@ -44,21 +49,22 @@ public class MultiplayerMenuUIController : MonoBehaviour
         quickJoinBtn.onClick.AddListener(() =>
         {
             // Start Client
-            //NetworkManager.Singleton.StartClient();
-
+            NetworkManager.Singleton.StartClient();
 
             //LobbyManager.Instance.QuickJoin();
         });
 
         //Crea un lobby nuevo
-       // newLobbyBtn.onClick.AddListener(() =>
-        //{
-            //Start Host
-            //NetworkManager.Singleton.StartHost();
-            //NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
-
+        newLobbyBtn.onClick.AddListener(() =>
+        {
+            //Comentado por ahora, puede activarse también desde unity
             //newLobbyUI.gameObject.SetActive(true);
-        //});
+
+            //Start Host
+            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+
+        });
 
 
         //Unirse con código

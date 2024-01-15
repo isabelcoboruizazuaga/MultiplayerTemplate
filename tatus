@@ -1,0 +1,23 @@
+[33mcommit e50730aca8472d7c6efbe150c338de98f95ab8c5[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Isa <isabelcoboruizazuaga@gmail.com>
+Date:   Thu Jan 11 12:41:28 2024 +0100
+
+    added Game manager and started MultiplayerManager
+
+[33mcommit 4c32153e286a1365a2b41765b96fc866f7da5add[m
+Author: Isa <isabelcoboruizazuaga@gmail.com>
+Date:   Thu Jan 11 11:54:35 2024 +0100
+
+    created scenes and filled menu scene with canvas
+
+[33mcommit 6717145c4260aec4a2f16dea9d63e4464930331f[m
+Author: Isa <isabelcoboruizazuaga@gmail.com>
+Date:   Mon Jan 8 09:19:56 2024 +0100
+
+    installed lobby and netcode packages
+
+[33mcommit 8900240b5313e603f495e763752ebe022c977e85[m
+Author: Isa <isabelcoboruizazuaga@gmail.com>
+Date:   Mon Jan 8 09:06:23 2024 +0100
+
+    first commit

@@ -5,17 +5,15 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MultiplayerManager : MonoBehaviour
+public class MultiplayerManager : NetworkBehaviour
 {
     public const int MAX_PLAYER_AMOUNT = 4;
     private const string PLAYER_NAME = "NombreJugador";
     public static MultiplayerManager Instance { get; private set; }
 
-
     public event EventHandler OnTryingToJoinGame;
     public event EventHandler OnFailedToJoinGame;
     public event EventHandler OnPlayerDataNetworkListChanged;
-
 
     private NetworkList<PlayerData> playerDataNetworkList;
     private string playerName;
@@ -182,6 +180,10 @@ public class MultiplayerManager : MonoBehaviour
         return -1;
     }
 
+
+    /**
+     * Obtiene los datos de un jugador dado su id
+     * */
     public PlayerData GetPlayerDataFromClientId(ulong clientId)
     {
         foreach (PlayerData playerData in playerDataNetworkList)
@@ -192,17 +194,27 @@ public class MultiplayerManager : MonoBehaviour
         return default;
     }
 
+    /**
+     * Obtiene el índice del jugador actual
+     * */
     public PlayerData GetPlayerData()
     {
         return GetPlayerDataFromClientId(NetworkManager.Singleton.LocalClientId);
     }
 
+
+    /**
+     * Obtiene los datos de un jugador dado su índice
+     * */
     public PlayerData GetPlayerDataFromPlayerIndex(int playerIndex)
     {
         return playerDataNetworkList[playerIndex];
     }
 
 
+    /**
+     * Cambia la skin de un jugador a la dada
+     * */
     [ServerRpc(RequireOwnership = false)]
     private void ChangePlayerSkinServerRpc(int skinIndex, ServerRpcParams serverRpcParams = default)
     {
