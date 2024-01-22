@@ -56,7 +56,7 @@ public class MultiplayerManager : NetworkBehaviour
     }
 
     /**
-     * Comienza a hostear el juego y carga la escena de Lobby
+     * Comienza a hostear el juego y carga la escena de Juego
      * */
     public void StartHost()
     {
@@ -64,7 +64,7 @@ public class MultiplayerManager : NetworkBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Server_OnClientDisconnectCallback;
         NetworkManager.Singleton.StartHost();
-        NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }
 
     /**
