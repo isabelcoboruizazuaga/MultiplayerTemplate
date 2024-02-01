@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ public class PlayerController : NetworkBehaviour
     private GameObject localSkin;
     private int skinIndex = 1;
 
+    private Camera camera;
     private bool right;
 
 
@@ -51,6 +53,7 @@ public class PlayerController : NetworkBehaviour
         if (IsOwner)
         {
             LocalInstance = this;
+            camera= GameObject.FindObjectOfType<Camera>();
         }
 
         OnAnyPlayerSpawed?.Invoke(this, EventArgs.Empty);
@@ -60,6 +63,7 @@ public class PlayerController : NetworkBehaviour
     // Rotación y movimiento
     void Update()
     {
+
         if (right)
             localSkin.transform.rotation = Quaternion.identity;
         else
@@ -68,7 +72,15 @@ public class PlayerController : NetworkBehaviour
         if (!IsOwner)
             return;
 
+        if (camera == null)
+        {
+            camera = GameObject.FindObjectOfType<Camera>();
+        }
+
         Move();
+
+
+        camera.transform.SetPositionAndRotation(new Vector3(transform.position.x+2, transform.position.y+3, -10f), Quaternion.identity);
 
     }
 

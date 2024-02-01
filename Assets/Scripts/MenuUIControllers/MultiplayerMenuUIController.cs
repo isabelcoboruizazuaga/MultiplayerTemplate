@@ -60,7 +60,7 @@ public class MultiplayerMenuUIController : MonoBehaviour
 
             //Start Host
             NetworkManager.Singleton.StartHost();
-            NetworkManager.Singleton.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
 
         });
 

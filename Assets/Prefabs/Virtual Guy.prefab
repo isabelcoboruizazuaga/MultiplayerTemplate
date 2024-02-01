@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7215632595388332515}
   - component: {fileID: 7215632595388332516}
   - component: {fileID: 8516497343390779114}
-  - component: {fileID: 6021151228633574716}
+  - component: {fileID: 2338442926180584639}
   m_Layer: 0
   m_Name: Virtual Guy
   m_TagString: Untagged
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
   m_Animator: {fileID: 7215632595388332516}
---- !u!114 &6021151228633574716
+--- !u!114 &2338442926180584639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

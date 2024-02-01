@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7967248202950810161}
   - component: {fileID: 8524531000456838895}
   - component: {fileID: 3521352492236499269}
-  - component: {fileID: 9128025728511822574}
+  - component: {fileID: 1372077993382495813}
   m_Layer: 0
   m_Name: Ninja Frog
   m_TagString: Untagged
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
   m_Animator: {fileID: 8524531000456838895}
---- !u!114 &9128025728511822574
+--- !u!114 &1372077993382495813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
