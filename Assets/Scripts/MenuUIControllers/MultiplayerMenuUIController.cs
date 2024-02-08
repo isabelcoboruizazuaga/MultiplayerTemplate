@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
+using Unity.Services.Lobbies.Models;
 
 public class MultiplayerMenuUIController : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class MultiplayerMenuUIController : MonoBehaviour
     //[SerializeField] private Button newPrivateLobbyBtn;
 
     [SerializeField] private GameObject newLobbyUI;
+    [SerializeField] private Transform lobbyListUI;
+    [SerializeField] private Transform lobbyTemplate;
 
 
 
@@ -47,16 +50,15 @@ public class MultiplayerMenuUIController : MonoBehaviour
         quickJoinBtn.onClick.AddListener(() =>
         {
             // Start Client
-            NetworkManager.Singleton.StartClient();
+           // NetworkManager.Singleton.StartClient();
 
-            //LobbyManager.Instance.QuickJoin();
+            LobbyManager.Instance.QuickJoin();
         });
 
         //Crea un lobby nuevo
         newLobbyBtn.onClick.AddListener(() =>
         {
-            //Comentado por ahora, puede activarse también desde unity
-            //newLobbyUI.gameObject.SetActive(true);
+            newLobbyUI.gameObject.SetActive(true);
 
             //Start Host
             NetworkManager.Singleton.StartHost();
@@ -68,11 +70,21 @@ public class MultiplayerMenuUIController : MonoBehaviour
         //Unirse con código
         codeJoinBtn.onClick.AddListener(() =>
         {
-            //LobbyManager.Instance.JoinWithCode(codeInputField.text);
+            LobbyManager.Instance.JoinWithCode(codeInputField.text);
         });
 
 
 
+        LobbyManager.Instance.OnLobbyListChanged += LobbyManager_OnLobbyListChanged;
+        UpdateLobbyList(new List<Lobby>());
+    }
+
+    /**
+    *Función que llama a actualizar la lista de salas basándose en un evento
+    */
+    private void LobbyManager_OnLobbyListChanged(object sender, LobbyManager.OnLobbyListChangedEventArgs e)
+    {
+        UpdateLobbyList(e.LobbyList);
     }
 
     /**
@@ -104,4 +116,24 @@ public class MultiplayerMenuUIController : MonoBehaviour
         }
 
     }
+
+    /*
+     *Función para actualizar la lista de salas
+     */
+    private void UpdateLobbyList(List<Lobby> lobbyList)
+    {
+        foreach (Transform child in lobbyListUI)
+        {
+            if (child == lobbyTemplate) continue;
+            //Destroy(child.gameObject);
+        }
+
+        foreach (Lobby lobby in lobbyList)
+        {
+            Transform lobbyTransform = Instantiate(lobbyTemplate, lobbyListUI);
+            lobbyTransform.gameObject.SetActive(true);
+            lobbyTransform.GetComponent<LobbyListController>().SetLobby(lobby);
+        }
+    }
+
 }

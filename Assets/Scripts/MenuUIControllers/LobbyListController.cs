@@ -13,14 +13,14 @@ public class LobbyListController : MonoBehaviour
     private void Awake()
     {
         GetComponent<Button>().onClick.AddListener(() => {
-            Debug.Log(lobby.Id);
-            //LobbyManager.Instance.JoinWithId(lobby.Id);
+            LobbyManager.Instance.JoinWithId(lobby.Id);
         });
     }
 
     public void SetLobby(Lobby lobby)
     {
         this.lobby = lobby;
+        Debug.Log(lobby.Id);
         lobbyNameText.text = lobby.Name;
     }
 }
