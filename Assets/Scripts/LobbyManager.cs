@@ -59,7 +59,6 @@ public class LobbyManager : MonoBehaviour
     }
 
 
-
     private void Update()
     {
         HeartbeatHandler();
@@ -68,6 +67,7 @@ public class LobbyManager : MonoBehaviour
 
     private void LobbyListHandler()
     {
+        //Cuando se une a un lobby y se está autenticado se establece un timer de conexión
         if (joinedLobby == null && AuthenticationService.Instance.IsSignedIn)
         {
             LobbyListTimer -= Time.deltaTime;
@@ -79,6 +79,7 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    //Método que administra la lista de lobbys para ir actualizándola
     private async void LobbyList()
     {
         try
@@ -105,6 +106,7 @@ public class LobbyManager : MonoBehaviour
 
     }
 
+    //Control del ping del lobby desde el host
     private void HeartbeatHandler()
     {
         if (IsLobbyHost())
@@ -118,13 +120,14 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    //Se comprueba si el usuario que se ha unido es el host del lobby
     private bool IsLobbyHost()
     {
         return joinedLobby != null && joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
     }
 
 
-
+    //Método que crea una sala nueva y actualiza la lista
     public async void NewLobby(string nombreSala, bool isPrivate)
     {
 
@@ -136,7 +139,6 @@ public class LobbyManager : MonoBehaviour
                 IsPrivate = isPrivate,
             });
 
-            Debug.Log(joinedLobby.Name);
             MultiplayerManager.Instance.StartHost();
         }
         catch (LobbyServiceException ex)
@@ -147,7 +149,7 @@ public class LobbyManager : MonoBehaviour
 
     }
 
-
+    //Método para unión rápida a una sala aleatoria ya creada
     public async void QuickJoin()
     {
 
@@ -166,6 +168,7 @@ public class LobbyManager : MonoBehaviour
 
     }
 
+    //Método para unirse a una sala con el id de ésta
     public async void JoinWithId(string lobbyId)
     {
         OnJoinStarted?.Invoke(this, EventArgs.Empty);
@@ -182,6 +185,7 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    //Método para unirse a una sala mediante un código
     public async void JoinWithCode(String codigo)
     {
         OnJoinStarted?.Invoke(this, EventArgs.Empty);
@@ -198,6 +202,7 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    //Método para borrar una sala ya existente
     public async void DeleteLobby()
     {
         if (joinedLobby != null)
@@ -215,6 +220,7 @@ public class LobbyManager : MonoBehaviour
     }
 
 
+    //Método para salir de la sala actual
     public async void LeaveLobby()
     {
         if (joinedLobby != null)
@@ -231,6 +237,7 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    //Método para expulsar a un jugador de la sala
     public async void KickPlayer(string playerId)
     {
         if (IsLobbyHost())
@@ -247,6 +254,7 @@ public class LobbyManager : MonoBehaviour
     }
 
 
+    //Método para obtener el lobby en el que se encuentra el jugador actual
     public Lobby GetLobby()
     {
         return joinedLobby;

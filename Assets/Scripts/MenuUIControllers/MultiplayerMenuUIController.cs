@@ -49,9 +49,6 @@ public class MultiplayerMenuUIController : MonoBehaviour
         //Botón de quick join, comienza el cliente
         quickJoinBtn.onClick.AddListener(() =>
         {
-            // Start Client
-           // NetworkManager.Singleton.StartClient();
-
             LobbyManager.Instance.QuickJoin();
         });
 
@@ -61,8 +58,8 @@ public class MultiplayerMenuUIController : MonoBehaviour
             newLobbyUI.gameObject.SetActive(true);
 
             //Start Host
-            NetworkManager.Singleton.StartHost();
-            NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+            //NetworkManager.Singleton.StartHost();
+            //NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
 
         });
 
@@ -72,8 +69,6 @@ public class MultiplayerMenuUIController : MonoBehaviour
         {
             LobbyManager.Instance.JoinWithCode(codeInputField.text);
         });
-
-
 
         LobbyManager.Instance.OnLobbyListChanged += LobbyManager_OnLobbyListChanged;
         UpdateLobbyList(new List<Lobby>());
@@ -125,7 +120,7 @@ public class MultiplayerMenuUIController : MonoBehaviour
         foreach (Transform child in lobbyListUI)
         {
             if (child == lobbyTemplate) continue;
-            //Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
 
         foreach (Lobby lobby in lobbyList)
