@@ -1,7 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,6 +13,7 @@ public class MultiplayerManager : NetworkBehaviour
     public event EventHandler OnTryingToJoinGame;
     public event EventHandler OnFailedToJoinGame;
     public event EventHandler OnPlayerDataNetworkListChanged;
+    public event EventHandler ConnectionApprovalCallBack;
 
     private NetworkList<PlayerData> playerDataNetworkList;
     private string playerName;
@@ -22,9 +22,6 @@ public class MultiplayerManager : NetworkBehaviour
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        //Se asigna un nombre de jugador aleatorio
-        PlayerPrefs.SetString(PLAYER_NAME, "Player" + UnityEngine.Random.Range(100, 1000));
 
         //Se crea una nueva lista de datos de jugadores actualizable
         playerDataNetworkList = new NetworkList<PlayerData>();
@@ -49,7 +46,7 @@ public class MultiplayerManager : NetworkBehaviour
         this.playerName = playerName;
         PlayerPrefs.SetString(PLAYER_NAME, playerName);
     }
-    
+
     private void PlayerDataNetworkList_OnListChanged(NetworkListEvent<PlayerData> changeEvent)
     {
         OnPlayerDataNetworkListChanged?.Invoke(this, EventArgs.Empty);
@@ -74,8 +71,12 @@ public class MultiplayerManager : NetworkBehaviour
     {
         playerDataNetworkList.Add(new PlayerData
         {
-            clientId = clientId
+            clientId = clientId,
+            skinIndex = 0,
+            color = Color.white
         });
+        SetPlayerNameServerRpc(GetPlayerName());
+        SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
     }
 
 
@@ -110,10 +111,25 @@ public class MultiplayerManager : NetworkBehaviour
         }
 
         connectionApprovalResponse.Approved = true;
-        Debug.Log("Conexión aprobada");
     }
 
 
+    /*
+     * Desconexión del cliente desde el lado del cliente
+     */
+    private void NetworkManager_Client_OnClientDisconnectCallback(ulong clientId)
+    {
+        OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
+    }
+
+    /*
+     * Conexión del cliente desde el lado del cliente
+     */
+    private void NetworkManager_Client_OnClientConnectedCallback(ulong clientId)
+    {
+        SetPlayerNameServerRpc(GetPlayerName());
+        SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
+    }
 
     /**
      * Conexión de cliente
@@ -122,7 +138,8 @@ public class MultiplayerManager : NetworkBehaviour
     {
         OnTryingToJoinGame?.Invoke(this, EventArgs.Empty);
 
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Client_OnClientDisconnectCallback;
+        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_Client_OnClientConnectedCallback;
         NetworkManager.Singleton.StartClient();
     }
 
@@ -134,7 +151,7 @@ public class MultiplayerManager : NetworkBehaviour
         OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
     }
 
-    /*[ServerRpc(RequireOwnership = false)]
+    [ServerRpc(RequireOwnership = false)]
     private void SetPlayerNameServerRpc(string name, ServerRpcParams serverRpcParams = default)
     {
         int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
@@ -153,8 +170,7 @@ public class MultiplayerManager : NetworkBehaviour
         playerData.playerId = playerId;
 
         playerDataNetworkList[playerDataIndex] = playerData;
-    }*/
-
+    }
 
 
     /**
@@ -162,10 +178,8 @@ public class MultiplayerManager : NetworkBehaviour
      * */
     public bool IsPlayerIndexConnected(int playerIndex)
     {
-        Debug.Log(playerDataNetworkList.Count);
         return (playerIndex < playerDataNetworkList.Count);
     }
-
 
     /**
      * Obtiene el índice de un jugador dado su id
@@ -211,6 +225,22 @@ public class MultiplayerManager : NetworkBehaviour
         return playerDataNetworkList[playerIndex];
     }
 
+    /*
+     * Obtiene la skin de un jugador dado su índice
+     */
+    public int GetPlayerSkinIndexFromPlayerIndex(int playerIndex)
+    {
+        return playerDataNetworkList[playerIndex].skinIndex;
+    }
+
+
+    /*
+     * Cambia la skin de un jugador dado su índice
+     */
+    public void SetPlayerSkin(int skinIndex)
+    {
+        ChangePlayerSkinServerRpc(skinIndex);
+    }
 
     /**
      * Cambia la skin de un jugador a la dada
@@ -227,4 +257,61 @@ public class MultiplayerManager : NetworkBehaviour
 
         playerDataNetworkList[playerDataIndex] = playerData;
     }
+
+    /*
+     * Cambia el color del jugador
+     */
+    public void SetPlayerColor(Color color)
+    {
+        SetPlayerColorServerRpc(color);
+    }
+
+    /*
+     * Cambia el color de un jugador en el servidor
+     */
+    [ServerRpc(RequireOwnership = false)]
+    private void SetPlayerColorServerRpc(Color color, ServerRpcParams serverRpcParams = default)
+    {
+        int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+
+        PlayerData playerData = playerDataNetworkList[playerDataIndex];
+
+        playerData.color = color;
+
+        playerDataNetworkList[playerDataIndex] = playerData;
+    }
+
+    /*
+     *Comprueba que el jugador esté listo
+     */
+    public void IsPlayerReady(bool isReady)
+    {
+        IsPlayerReadyServerRpc(isReady);
+    }
+
+    /*
+     *Comprueba que el jugador ésté listo desde el sevidor 
+     */
+
+    [ServerRpc(RequireOwnership = false)]
+    private void IsPlayerReadyServerRpc(bool isReady, ServerRpcParams serverRpcParams = default)
+    {
+        int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+
+        PlayerData playerData = playerDataNetworkList[playerDataIndex];
+
+        playerData.isPlayerReady = isReady;
+
+        playerDataNetworkList[playerDataIndex] = playerData;
+    }
+
+    /*
+     *Echa a un jugador del lobby
+     */
+    public void KickPlayer(ulong clientId)
+    {
+        NetworkManager.Singleton.DisconnectClient(clientId);
+        NetworkManager_Server_OnClientDisconnectCallback(clientId);
+    }
+
 }

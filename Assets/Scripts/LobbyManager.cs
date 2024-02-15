@@ -24,15 +24,16 @@ public class LobbyManager : MonoBehaviour
     public event EventHandler OnQuickJoinFailed;
     public event EventHandler<OnLobbyListChangedEventArgs> OnLobbyListChanged;
 
+
+    private Lobby joinedLobby;
+    private float heartbeatTimer;
+    private float LobbyListTimer;
+
     public class OnLobbyListChangedEventArgs : EventArgs
     {
         public List<Lobby> LobbyList;
     }
 
-
-    private Lobby joinedLobby;
-    private float heartbeatTimer;
-    private float LobbyListTimer;
 
     private void Awake()
     {
@@ -57,7 +58,6 @@ public class LobbyManager : MonoBehaviour
         }
 
     }
-
 
     private void Update()
     {

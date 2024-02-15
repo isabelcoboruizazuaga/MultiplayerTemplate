@@ -56,11 +56,6 @@ public class MultiplayerMenuUIController : MonoBehaviour
         newLobbyBtn.onClick.AddListener(() =>
         {
             newLobbyUI.gameObject.SetActive(true);
-
-            //Start Host
-            //NetworkManager.Singleton.StartHost();
-            //NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
-
         });
 
 

@@ -6,20 +6,25 @@ using Unity.Netcode;
 using UnityEngine;
 public struct PlayerData : IEquatable<PlayerData>, INetworkSerializable
 {
-    public FixedString64Bytes playerName;
-    public FixedString64Bytes playerId;
-    public int skinIndex;
     public ulong clientId;
+    public FixedString64Bytes playerId;
+    public FixedString64Bytes playerName;
+    public int skinIndex;
+    public Color color;
+    public bool isPlayerReady;
+
 
 
     //Comprueba que el jugador guardado sea el mismo que el proporcionado
     public bool Equals(PlayerData other)
     {
         return
-            playerName == other.playerName &&
             playerId == other.playerId &&
+            playerName == other.playerName &&
             skinIndex == other.skinIndex &&
-            playerId == other.playerId;
+            color == other.color &&
+            playerId == other.playerId &&
+            isPlayerReady == other.isPlayerReady;
     }
 
     //Serializa los valores para poder compartirlos
@@ -29,5 +34,7 @@ public struct PlayerData : IEquatable<PlayerData>, INetworkSerializable
         serializer.SerializeValue(ref clientId);
         serializer.SerializeValue(ref playerId);
         serializer.SerializeValue(ref skinIndex);
+        serializer.SerializeValue(ref color);
+        serializer.SerializeValue(ref isPlayerReady);
     }
 }
