@@ -13,6 +13,7 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private GameObject gameModeMenu;
     [SerializeField] private GameObject multiplayerMenu;
     [SerializeField] private GameObject newLobbyMenu;
+    [SerializeField] private Transform playerPrefab;
 
 
     public event EventHandler OnLocalPlayerReadyChanged;
@@ -70,9 +71,9 @@ public class GameManager : NetworkBehaviour
         {
             foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
             {
-                //Transform playerTransform = Instantiate(playerPrefab);
-                //playerTransform.GetComponent<PlayerController>().PlayerSetUp(clientId);
-                //playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+                Transform playerTransform = Instantiate(playerPrefab);
+                playerTransform.GetComponent<PlayerController>().PlayerSetUp(clientId);
+                playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
 
             }
         }
