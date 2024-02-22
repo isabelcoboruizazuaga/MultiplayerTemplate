@@ -62,47 +62,10 @@ public class CharacterSelectUI : MonoBehaviour
         {
            MultiplayerManager.Instance.SetPlayerSkin(1);
         });
-
-
-
-        // Cambio de Color
-        noColorButton.onClick.AddListener(() =>
-        {
-            Debug.Log("a?");
-            MultiplayerManager.Instance.SetPlayerColor(new Color(1, 1, 1, 0.5f));
-        });
-
-        whiteButton.onClick.AddListener(() =>
-        {
-           MultiplayerManager.Instance.SetPlayerColor(new Color(1, 1, 1, 1));
-        });
-
-        blueButton.onClick.AddListener(() =>
-        {
-           // MultiplayerManager.Instance.SetPlayerColor(new Color(0, 0, 1, 1));
-        });
-
-        redButton.onClick.AddListener(() =>
-        {
-            //MultiplayerManager.Instance.SetPlayerColor(new Color(1, 0, 0, 1));
-        });
-
-        greenButton.onClick.AddListener(() =>
-        {
-            //MultiplayerManager.Instance.SetPlayerColor(new Color(0, 1, 0, 1));
-        });
-
-        purpleButton.onClick.AddListener(() =>
-        {
-            //MultiplayerManager.Instance.SetPlayerColor(new Color(1, 0, 1, 1));
-        });
-
-
     }
     public void ChangeColor()
     {
         Button button;
-        Debug.Log("aaaaaaaaaa");
         button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
 
         MultiplayerManager.Instance.SetPlayerColor((Vector4)button.targetGraphic.color);
