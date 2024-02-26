@@ -959,6 +959,7 @@ MonoBehaviour:
   gameModeMenu: {fileID: 984988828}
   multiplayerMenu: {fileID: 1728478325}
   newLobbyMenu: {fileID: 2089946093}
+  playerPrefab: {fileID: 1309831927821973930, guid: 89fda5ce684277043bd54674eceb413a, type: 3}
   gameReady:
     m_InternalValue: 0
 --- !u!114 &398231939
@@ -1186,7 +1187,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 459559365}
-    PlayerPrefab: {fileID: 8969137979979794876, guid: 89fda5ce684277043bd54674eceb413a, type: 3}
+    PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 5af36e6f32c78794aa2b416fc486bebf, type: 2}

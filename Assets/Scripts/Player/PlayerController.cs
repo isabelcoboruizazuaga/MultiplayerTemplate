@@ -100,50 +100,33 @@ public class PlayerController : NetworkBehaviour
      */
     public void Move()
     {
-        /* rb.velocity = (transform.right * velocidad * Input.GetAxis("Horizontal")) +
+        if (this.transform.rotation == Quaternion.identity) // Desplazamiento hacia la derecha
+        {
+            rb.velocity = (transform.right * velocidad * Input.GetAxis("Horizontal")) +
                     (transform.up * rb.velocity.y);
-
-         this.transform.SetLocalPositionAndRotation(this.transform.position, Quaternion.identity);
-
-         if (Input.GetButtonDown("Vertical") && (Mathf.Abs(rb.velocity.y) < 0.2f))
-         {
-             rb.AddForce(transform.up * fuerzaSalto);
-         }
-
-         anim.SetFloat("velocidadX", Mathf.Abs(rb.velocity.x));
-         anim.SetFloat("velocidadY", rb.velocity.y);
-
-         if (rb.velocity.x > 0.1f)
-         {
-             right = true;
-         }
-         else if (rb.velocity.x < -0.1f)
-         {
-             right = false;
-         }*/
-
-        rb.velocity = (transform.right * velocidad * Input.GetAxis("Horizontal")) +
-                     (transform.up * rb.velocity.y);
-
+        }
+        else
+        { // Desplazamiento hacia la izuquierda
+            rb.velocity = -(transform.right * velocidad * Input.GetAxis("Horizontal")) +
+                (transform.up * rb.velocity.y);
+        }
 
         // Actualizamos la posición
         this.transform.SetLocalPositionAndRotation(this.transform.position, this.transform.rotation);
 
 
         // Rotamos el jugador en función de la pulsación de teclas.
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
-            this.GetComponentInChildren<SpriteRenderer>().flipX = false;
-            //this.transform.rotation = Quaternion.identity;
+            this.transform.rotation = Quaternion.identity;
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
-            this.GetComponentInChildren<SpriteRenderer>().flipX = true;
-           // this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
 
         // Configuración del salto.
-        if (Input.GetKeyDown(KeyCode.Space) && (Mathf.Abs(rb.velocity.y) < 0.2f))
+        if ((Input.GetKeyDown(KeyCode.UpArrow)|| Input.GetKeyDown(KeyCode.Space)) && (Mathf.Abs(rb.velocity.y) < 0.2f))
         {
             rb.AddForce(transform.up * fuerzaSalto);
         }
@@ -151,10 +134,6 @@ public class PlayerController : NetworkBehaviour
         // Actualizamos la animación
         anim.SetFloat("velocidadX", Mathf.Abs(rb.velocity.x));
         anim.SetFloat("velocidadY", rb.velocity.y);
-
-        // Seguimiento de cámara
-        //cam.transform.SetPositionAndRotation(new Vector3(this.transform.position.x + 2, this.transform.position.y + 2, -10), Quaternion.identity);
-
 }
 
     /*

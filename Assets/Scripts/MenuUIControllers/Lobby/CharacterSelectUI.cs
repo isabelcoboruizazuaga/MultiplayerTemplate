@@ -43,7 +43,7 @@ public class CharacterSelectUI : MonoBehaviour
         readyBtn.onClick.AddListener(() =>
         {
             GameManager.Instance.SetPlayerReady();
-           // MultiplayerManager.Instance.IsPlayerReady(true);
+            MultiplayerManager.Instance.IsPlayerReady(true);
             readyBtn.interactable = false;
             var colors = readyBtn.colors;
             colors.disabledColor = new Color(0.5f, 1, 0, 1);

@@ -10,8 +10,8 @@ public class GameControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject go = Instantiate(player, Vector3.zero, Quaternion.identity);
-        go.GetComponent<NetworkObject>().Spawn();
+        /*GameObject go = Instantiate(player, Vector3.zero, Quaternion.identity);
+        go.GetComponent<NetworkObject>().Spawn();*/
     }
 
     // Update is called once per frame
