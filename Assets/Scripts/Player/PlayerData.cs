@@ -23,16 +23,15 @@ public struct PlayerData : IEquatable<PlayerData>, INetworkSerializable
             playerName == other.playerName &&
             skinIndex == other.skinIndex &&
             color == other.color &&
-            playerId == other.playerId &&
             isPlayerReady == other.isPlayerReady;
     }
 
     //Serializa los valores para poder compartirlos
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
-        serializer.SerializeValue(ref playerName);
         serializer.SerializeValue(ref clientId);
         serializer.SerializeValue(ref playerId);
+        serializer.SerializeValue(ref playerName);
         serializer.SerializeValue(ref skinIndex);
         serializer.SerializeValue(ref color);
         serializer.SerializeValue(ref isPlayerReady);

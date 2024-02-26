@@ -51,7 +51,12 @@ public class CharacterSelectPlayer : MonoBehaviour
 
             if (playerData.color != null)
             {
-                GetComponentInChildren<SpriteRenderer>().color = playerData.color;
+                SpriteRenderer[] sprites= GetComponentsInChildren<SpriteRenderer>();
+                foreach (SpriteRenderer sprite in sprites)
+                {
+                    sprite.color= playerData.color;
+                }
+                //GetComponentInChildren<SpriteRenderer>().color = playerData.color;
             }
 
             // Actualización de Ready
